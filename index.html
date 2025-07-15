@@ -1,0 +1,1030 @@
+<html class="scroll-smooth" lang="id">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Aksarasa - Platform Literasi Digital Keluarga
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   body {
+     font-family: 'Inter', sans-serif;
+   }
+   /* Hide main content initially */
+   #main-content {
+     display: none;
+   }
+   /* Animations */
+   @keyframes fadeInUp {
+     0% {
+       opacity: 0;
+       transform: translateY(20px);
+     }
+     100% {
+       opacity: 1;
+       transform: translateY(0);
+     }
+   }
+   .fade-in-up {
+     animation: fadeInUp 0.8s ease forwards;
+   }
+   /* Feature card hover effect */
+   .feature-card {
+     transition: transform 0.3s ease, box-shadow 0.3s ease;
+     cursor: pointer;
+   }
+   .feature-card:hover, .feature-card:focus {
+     transform: translateY(-10px) scale(1.05);
+     box-shadow: 0 15px 25px rgba(59, 130, 246, 0.4);
+     outline: none;
+   }
+   /* Button pulse animation */
+   .btn-pulse {
+     animation: pulse 2s infinite;
+   }
+   @keyframes pulse {
+     0%, 100% {
+       transform: scale(1);
+       box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+     }
+     50% {
+       transform: scale(1.05);
+       box-shadow: 0 0 10px 10px rgba(59, 130, 246, 0);
+     }
+   }
+   /* Smooth scroll for anchor links */
+   html {
+     scroll-behavior: smooth;
+   }
+   /* Custom scrollbar for overflow-y-auto */
+   .overflow-y-auto::-webkit-scrollbar {
+     width: 8px;
+   }
+   .overflow-y-auto::-webkit-scrollbar-thumb {
+     background-color: rgba(59, 130, 246, 0.5);
+     border-radius: 4px;
+   }
+   .overflow-y-auto::-webkit-scrollbar-track {
+     background-color: transparent;
+   }
+   /* Fix for mobile layout overflow and padding */
+   main {
+     padding-left: 1rem;
+     padding-right: 1rem;
+   }
+   @media (max-width: 640px) {
+     main {
+       padding-left: 1rem;
+       padding-right: 1rem;
+     }
+     /* Make tables scrollable horizontally */
+     table {
+       width: 100% !important;
+       min-width: 600px !important;
+     }
+     .overflow-x-auto {
+       overflow-x: auto !important;
+       -webkit-overflow-scrolling: touch;
+     }
+     /* Reduce padding in table cells on small screens */
+     th, td {
+       padding-left: 0.5rem !important;
+       padding-right: 0.5rem !important;
+     }
+     /* Reduce font size in table for better fit */
+     table, th, td {
+       font-size: 0.875rem !important;
+     }
+     /* Adjust feature cards grid to 1 column */
+     #features > div {
+       grid-template-columns: 1fr !important;
+     }
+     /* Adjust stories grid to 1 column */
+     #stories > div {
+       grid-template-columns: 1fr !important;
+     }
+     /* Reduce image sizes in stories */
+     #stories img {
+       width: 4.5rem !important;
+       height: 4.5rem !important;
+     }
+     /* Reduce font sizes in stories */
+     #stories h4 {
+       font-size: 1rem !important;
+     }
+     #stories p {
+       font-size: 0.75rem !important;
+     }
+     /* Reduce padding in stories articles */
+     #stories article {
+       padding: 0.25rem 0 !important;
+     }
+     /* Fix footer padding */
+     footer div {
+       padding-left: 1rem;
+       padding-right: 1rem;
+     }
+   }
+  </style>
+ </head>
+ <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+  <!-- Login Modal -->
+  <div aria-labelledby="login-title" aria-modal="true" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4" id="login-modal" role="dialog">
+   <div class="bg-white rounded-xl shadow-lg max-w-md w-full p-8 fade-in-up max-h-[90vh] overflow-y-auto">
+    <h2 class="text-2xl font-bold text-blue-700 mb-6 text-center" id="login-title">
+     Isi Data Keluarga untuk Masuk
+    </h2>
+    <form class="space-y-6" id="login-form" novalidate="">
+     <div>
+      <label class="block text-gray-700 font-semibold mb-2" for="familyName">
+       Nama Keluarga
+      </label>
+      <input autocomplete="off" class="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id="familyName" name="familyName" placeholder="Masukkan nama keluarga" required="" type="text"/>
+     </div>
+     <div>
+      <label class="block text-gray-700 font-semibold mb-2" for="memberCount">
+       Jumlah Anggota Keluarga
+      </label>
+      <input autocomplete="off" class="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id="memberCount" min="1" name="memberCount" placeholder="Masukkan jumlah anggota keluarga" required="" type="number"/>
+     </div>
+     <div>
+      <label class="block text-gray-700 font-semibold mb-2" for="emailLogin">
+       Email Keluarga
+      </label>
+      <input autocomplete="off" class="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id="emailLogin" name="emailLogin" placeholder="Masukkan email keluarga" required="" type="email"/>
+     </div>
+     <button class="w-full bg-blue-700 text-white font-semibold py-3 rounded-md hover:bg-blue-800 transition btn-pulse" type="submit">
+      Masuk
+     </button>
+    </form>
+   </div>
+  </div>
+  <!-- Main Content -->
+  <div class="flex-grow flex flex-col opacity-0 transition-opacity duration-700" id="main-content">
+   <header class="bg-white shadow-md sticky top-0 z-40 animate-fadeInDown">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+     <a class="flex items-center space-x-3" href="#">
+      <img alt="Logo Aksarasa berupa huruf A berwarna biru dengan latar putih" class="w-12 h-12" height="48" src="lo.png" width="48"/>
+      <span class="text-2xl font-semibold text-blue-700 select-none">
+       Aksarasa
+      </span>
+     </a>
+     <nav class="hidden md:flex space-x-8 font-medium text-gray-700">
+      <a class="hover:text-blue-700 transition" href="#overview">
+       Beranda
+      </a>
+      <a class="hover:text-blue-700 transition" href="#features">
+       Fitur
+      </a>
+      <a class="hover:text-blue-700 transition" href="#stories">
+       Cerita
+      </a>
+      <a class="hover:text-blue-700 transition" href="#points">
+       Poin &amp; Leaderboard
+      </a>
+      <a class="hover:text-blue-700 transition" href="#statistics">
+       Statistik
+      </a>
+      <a class="hover:text-blue-700 transition" href="#rewards">
+       Reward
+      </a>
+      <a class="hover:text-blue-700 transition" href="#contact">
+       Kontak
+      </a>
+      <button aria-label="Logout" class="ml-6 text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 rounded" id="logout-button" title="Logout">
+       <i class="fas fa-sign-out-alt fa-lg">
+       </i>
+      </button>
+     </nav>
+     <button aria-label="Toggle menu" class="md:hidden text-gray-700 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" id="mobile-menu-button">
+      <i class="fas fa-bars fa-lg">
+      </i>
+     </button>
+    </div>
+    <nav aria-label="Mobile menu" class="md:hidden bg-white border-t border-gray-200 hidden" id="mobile-menu">
+     <a class="block px-4 py-3 border-b border-gray-200 text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition" href="#overview">
+      Beranda
+     </a>
+     <a class="block px-4 py-3 border-b border-gray-200 text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition" href="#features">
+      Fitur
+     </a>
+     <a class="block px-4 py-3 border-b border-gray-200 text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition" href="#stories">
+      Cerita
+     </a>
+     <a class="block px-4 py-3 border-b border-gray-200 text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition" href="#points">
+      Poin &amp; Leaderboard
+     </a>
+     <a class="block px-4 py-3 border-b border-gray-200 text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition" href="#statistics">
+      Statistik
+     </a>
+     <a class="block px-4 py-3 border-b border-gray-200 text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition" href="#rewards">
+      Reward
+     </a>
+     <a class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition" href="#contact">
+      Kontak
+     </a>
+     <button aria-label="Logout" class="w-full text-left px-4 py-3 text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 rounded" id="logout-button-mobile" title="Logout">
+      <i class="fas fa-sign-out-alt mr-2">
+      </i>
+      Logout
+     </button>
+    </nav>
+   </header>
+   <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20 overflow-auto">
+    <!-- Overview Section -->
+    <section class="text-center max-w-4xl mx-auto space-y-6 fade-in-up" id="overview">
+     <h1 class="text-4xl sm:text-5xl font-extrabold text-blue-700 leading-tight">
+      Aksarasa
+     </h1>
+     <p class="text-lg sm:text-xl text-gray-700 px-2 sm:px-0">
+      Platform literasi digital keluarga yang menggabungkan audio, visual, dan data untuk menciptakan pengalaman membaca yang menyenangkan lintas generasi.
+     </p>
+     <img alt="Ilustrasi keluarga Indonesia terdiri dari anak-anak, remaja, dewasa, dan lansia sedang menikmati cerita digital dengan teks, audio narasi, dan ilustrasi di ruang keluarga yang hangat dan cerah" class="mx-auto rounded-lg shadow-lg w-48 sm:w-64 transition-transform hover:scale-105" height="200" src="g1.jpg" width="320"/>
+    </section>
+    <!-- Features Section -->
+    <section class="max-w-5xl mx-auto space-y-12" id="features">
+     <h2 class="text-3xl font-bold text-blue-700 text-center mb-8 fade-in-up">
+      Fitur Unggulan
+     </h2>
+     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+      <a aria-label="Unduh PDF dan Audio" class="feature-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center space-y-4 focus-visible:ring-4 focus-visible:ring-blue-300" href="unduh.html" tabindex="0">
+       <img alt="Ikon file PDF dan audio dengan tanda unduh berwarna biru dan putih" class="w-20 h-20 sm:w-24 sm:h-24 transition-transform duration-300" height="120" src="https://storage.googleapis.com/a1aa/image/e0fcc985-650f-48d5-5f3f-f76a1176ba7b.jpg" width="120"/>
+       <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
+        Unduh PDF &amp; Audio
+       </h3>
+       <p class="text-gray-600 text-sm sm:text-base">
+        Unduh cerita dalam bentuk file PDF dan audio untuk akses offline.
+       </p>
+      </a>
+      <a aria-label="Kategori Berdasarkan Usia" class="feature-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center space-y-4 focus-visible:ring-4 focus-visible:ring-blue-300" href="literasi.html" tabindex="0">
+       <img alt="Ikon kategori usia dengan simbol anak-anak, remaja, dewasa, dan lansia berwarna biru dan putih" class="w-20 h-20 sm:w-24 sm:h-24 transition-transform duration-300" height="120" src="https://storage.googleapis.com/a1aa/image/7a081b26-1641-4204-d470-68f338700619.jpg" width="120"/>
+       <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
+        Kategori Berdasarkan Usia
+       </h3>
+       <p class="text-gray-600 text-sm sm:text-base">
+        Cerita dikategorikan sesuai usia pengguna untuk pengalaman yang relevan.
+       </p>
+      </a>
+      <a aria-label="Sistem Poin Bintang" class="feature-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center space-y-4 focus-visible:ring-4 focus-visible:ring-blue-300" href="bintang.html" tabindex="0">
+       <img alt="Ikon bintang poin dengan simbol bintang emas dan angka poin berwarna biru dan putih" class="w-20 h-20 sm:w-24 sm:h-24 transition-transform duration-300" height="120" src="bint.jpg" width="120"/>
+       <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
+        Sistem Poin Bintang
+       </h3>
+       <p class="text-gray-600 text-sm sm:text-base">
+        Dapatkan bintang setiap menyelesaikan cerita, mendengarkan audio, dan membaca konsisten.
+       </p>
+      </a>
+      <a aria-label="Leaderboard Keluarga" class="feature-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center space-y-4 focus-visible:ring-4 focus-visible:ring-blue-300" href="leader.html" tabindex="0">
+       <img alt="Ikon leaderboard keluarga dengan papan peringkat dan simbol keluarga berwarna biru dan putih" class="w-20 h-20 sm:w-24 sm:h-24 transition-transform duration-300" height="120" src="lead.jpg" width="120"/>
+       <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
+        Leaderboard Keluarga
+       </h3>
+       <p class="text-gray-600 text-sm sm:text-base">
+        Papan peringkat berdasarkan total cerita, durasi membaca, dan keterlibatan anggota keluarga.
+       </p>
+      </a>
+      <a aria-label="Reward dan Badge" class="feature-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center space-y-4 focus-visible:ring-4 focus-visible:ring-blue-300" href="reward.html" tabindex="0">
+       <img alt="Ikon badge reward dengan lencana dan medali berwarna biru dan putih" class="w-20 h-20 sm:w-24 sm:h-24 transition-transform duration-300" height="120" src="https://storage.googleapis.com/a1aa/image/a2d54a8a-a33b-46af-adf3-8f71f7f2a7ec.jpg" width="120"/>
+       <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
+        Reward &amp; Badge
+       </h3>
+       <p class="text-gray-600 text-sm sm:text-base">
+        Dapatkan badge saat mencapai milestone seperti Penjelajah Cerita dan Maraton Literasi.
+       </p>
+      </a>
+      <a aria-label="Statistik dan Rekomendasi AI" class="feature-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center space-y-4 focus-visible:ring-4 focus-visible:ring-blue-300" href="statistik.html" tabindex="0">
+       <img alt="Ikon statistik dan AI dengan grafik dan otak digital berwarna biru dan putih" class="w-20 h-20 sm:w-24 sm:h-24 transition-transform duration-300" height="120" src="Ai - Copy.jpg" width="120"/>
+       <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
+        Statistik &amp; Rekomendasi AI
+       </h3>
+       <p class="text-gray-600 text-sm sm:text-base">
+        Statistik literasi pribadi dan rekomendasi cerita berbasis AI sesuai usia dan minat.
+       </p>
+      </a>
+     </div>
+    </section>
+    <!-- Stories Section -->
+    <section class="max-w-6xl mx-auto space-y-12 fade-in-up" id="stories">
+     <h2 class="text-3xl font-bold text-blue-700 text-center">
+      Cerita Sesuai Usia
+     </h2>
+     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+      <!-- Anak-anak -->
+      <div class="bg-white rounded-xl shadow-md p-6 flex flex-col">
+       <h3 class="text-2xl font-semibold text-blue-700 mb-4 text-center">
+        Anak-anak
+       </h3>
+       <div class="space-y-6 overflow-y-auto max-h-[480px] pr-2">
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita anak-anak berwarna cerah dengan karakter kartun anak sedang bermain di taman" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/94e6f29e-62de-4632-078e-7e3b95fad58b.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Petualangan Kelinci Ceria
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita bersuara dengan ilustrasi cerah tentang kelinci yang suka berpetualang.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Petualangan Kelinci Ceria" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Petualangan Kelinci Ceria" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita anak-anak berwarna cerah dengan karakter kartun anak dan hewan peliharaan di rumah" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/12089d86-df43-4281-661c-97590dbb3ef3.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Si Kucing dan Bola Ajaib
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita bersuara interaktif tentang kucing yang menemukan bola ajaib di rumah.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Si Kucing dan Bola Ajaib" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Si Kucing dan Bola Ajaib" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita anak-anak berwarna cerah dengan karakter kartun anak-anak sedang belajar di sekolah" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/ad1f081d-e525-422c-a19f-feae2d58ed34.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Hari Pertama di Sekolah Baru
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita bersuara yang mengajarkan keberanian dan persahabatan di sekolah.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Hari Pertama di Sekolah Baru" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Hari Pertama di Sekolah Baru" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita anak-anak berwarna cerah dengan karakter kartun anak bermain di kebun bunga" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/3e262ff5-c5c3-47cc-84c5-a7b32496a6f9.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Rahasia Kebun Bunga
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita bersuara tentang petualangan anak menemukan rahasia di kebun bunga.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Rahasia Kebun Bunga" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Rahasia Kebun Bunga" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita anak-anak berwarna cerah dengan karakter kartun anak dan teman-teman bermain di pantai" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/0694a76b-c5fd-4249-8948-2158760c91f6.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Liburan di Pantai Ceria
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita bersuara yang mengisahkan liburan menyenangkan di pantai bersama teman-teman.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Liburan di Pantai Ceria" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Liburan di Pantai Ceria" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+       </div>
+      </div>
+      <!-- Remaja -->
+      <div class="bg-white rounded-xl shadow-md p-6 flex flex-col">
+       <h3 class="text-2xl font-semibold text-blue-700 mb-4 text-center">
+        Remaja
+       </h3>
+       <div class="space-y-6 overflow-y-auto max-h-[480px] pr-2">
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita remaja dengan karakter remaja sedang berdiskusi di kafe modern" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/8d91e60d-a134-4947-9e63-e54fedb85ecc.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Misteri di Balik Sekolah
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita pilihan interaktif tentang remaja yang memecahkan misteri di sekolah.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Misteri di Balik Sekolah" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Misteri di Balik Sekolah" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita remaja dengan karakter remaja sedang bersepeda di taman kota" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/163ea6e9-6203-437a-70c4-edbf5d839c65.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Petualangan Sepeda Malam
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita pilihan interaktif tentang petualangan bersepeda di malam hari.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Petualangan Sepeda Malam" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Petualangan Sepeda Malam" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita remaja dengan karakter remaja sedang menulis di buku harian" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/7bc894c8-b5e4-4330-7b85-0a152934ec67.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Diary Rahasia
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita pilihan interaktif yang mengungkap rahasia dan perasaan remaja.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Diary Rahasia" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Diary Rahasia" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita remaja dengan karakter remaja sedang bermain musik di kamar" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/3fa7bb46-8725-4283-2f18-b86f300a0a19.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Nada Persahabatan
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita pilihan interaktif tentang persahabatan dan musik.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Nada Persahabatan" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Nada Persahabatan" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita remaja dengan karakter remaja sedang berlatih olahraga di lapangan" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/9188a6bc-ebfc-433f-0fbd-65c411fb7a93.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Semangat Juang
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita pilihan interaktif yang menginspirasi semangat dan kerja keras.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Semangat Juang" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Semangat Juang" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+       </div>
+      </div>
+      <!-- Dewasa & Lansia -->
+      <div class="bg-white rounded-xl shadow-md p-6 flex flex-col">
+       <h3 class="text-2xl font-semibold text-blue-700 mb-4 text-center">
+        Dewasa &amp; Lansia
+       </h3>
+       <div class="space-y-6 overflow-y-auto max-h-[480px] pr-2">
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita dewasa dan lansia dengan karakter orang dewasa sedang membaca buku edukatif di ruang tamu" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/cb40ab0a-d281-4198-1f7b-42c0875bf617.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Kenangan Masa Lalu
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita edukatif dan audio bernuansa nostalgia tentang kenangan masa lalu.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Kenangan Masa Lalu" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Kenangan Masa Lalu" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita dewasa dan lansia dengan karakter orang dewasa sedang berdiskusi di perpustakaan" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/707742af-9298-4b60-0460-60994f56ebab.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Pelajaran Hidup Berharga
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita edukatif yang mengajarkan nilai-nilai kehidupan dan kebijaksanaan.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Pelajaran Hidup Berharga" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Pelajaran Hidup Berharga" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita dewasa dan lansia dengan karakter lansia sedang mendengarkan audio cerita di kursi goyang" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/64c29799-396d-455a-672a-e1ec95f0d689.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Cerita Audio Nostalgia
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita audio bernuansa nostalgia yang menyenangkan untuk dewasa dan lansia.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Cerita Audio Nostalgia" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Cerita Audio Nostalgia" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita dewasa dan lansia dengan karakter orang dewasa sedang menulis surat di meja kayu" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/c10a2a21-bd3a-4ca5-6f2f-959239ebe03d.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Surat untuk Masa Depan
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita edukatif yang mengajak refleksi dan harapan untuk generasi berikutnya.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Surat untuk Masa Depan" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Surat untuk Masa Depan" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+        <article class="flex space-x-4 items-center">
+         <img alt="Ilustrasi cerita dewasa dan lansia dengan karakter lansia sedang berkebun di halaman rumah" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 sm:w-24 sm:h-24" height="96" src="https://storage.googleapis.com/a1aa/image/2a29c306-a2f9-4491-863e-37978eabb63a.jpg" width="96"/>
+         <div>
+          <h4 class="font-semibold text-gray-900 text-sm sm:text-base">
+           Kebun Kenangan
+          </h4>
+          <p class="text-gray-600 text-xs sm:text-sm">
+           Cerita edukatif dan audio bernuansa nostalgia tentang berkebun dan kenangan indah.
+          </p>
+          <div class="flex space-x-3 mt-2 text-sm sm:text-base">
+           <a aria-label="Download PDF Kebun Kenangan" class="text-blue-600 hover:text-blue-800" href="#" title="Download PDF">
+            <i class="fas fa-file-pdf fa-lg">
+            </i>
+           </a>
+           <a aria-label="Download Audio Kebun Kenangan" class="text-blue-600 hover:text-blue-800" href="#" title="Download Audio">
+            <i class="fas fa-file-audio fa-lg">
+            </i>
+           </a>
+          </div>
+         </div>
+        </article>
+       </div>
+      </div>
+     </div>
+    </section>
+    <!-- Points & Leaderboard Section -->
+    <section class="max-w-5xl mx-auto bg-white rounded-xl shadow-md p-6 sm:p-8 fade-in-up" id="points">
+     <h2 class="text-3xl font-bold text-blue-700 mb-6 sm:mb-8 text-center">
+      Poin Bintang &amp; Leaderboard Keluarga
+     </h2>
+     <div class="space-y-8 sm:space-y-10">
+      <div>
+       <h3 class="text-2xl font-semibold text-gray-900 mb-3 sm:mb-4 text-center">
+        Sistem Poin Bintang
+       </h3>
+       <p class="text-gray-700 max-w-3xl mx-auto text-center mb-4 sm:mb-6 px-2 sm:px-0">
+        Pengguna memperoleh ⭐ bintang setiap kali menyelesaikan cerita, mendengarkan audio hingga selesai, atau membaca secara konsisten.
+       </p>
+       <div class="flex flex-wrap justify-center gap-6 sm:gap-8">
+        <div class="flex flex-col items-center bg-blue-50 rounded-lg p-5 sm:p-6 w-36 sm:w-40 shadow hover:shadow-lg transition-shadow duration-300">
+         <i class="fas fa-star fa-3x text-yellow-400 mb-2 sm:mb-3">
+         </i>
+         <span class="text-lg font-semibold text-gray-900">
+          150
+         </span>
+         <span class="text-gray-600 text-sm sm:text-base">
+          Total Bintang
+         </span>
+        </div>
+        <div class="flex flex-col items-center bg-blue-50 rounded-lg p-5 sm:p-6 w-36 sm:w-40 shadow hover:shadow-lg transition-shadow duration-300">
+         <i class="fas fa-book fa-3x text-blue-600 mb-2 sm:mb-3">
+         </i>
+         <span class="text-lg font-semibold text-gray-900">
+          45
+         </span>
+         <span class="text-gray-600 text-sm sm:text-base">
+          Cerita Diselesaikan
+         </span>
+        </div>
+        <div class="flex flex-col items-center bg-blue-50 rounded-lg p-5 sm:p-6 w-36 sm:w-40 shadow hover:shadow-lg transition-shadow duration-300">
+         <i class="fas fa-headphones fa-3x text-blue-600 mb-2 sm:mb-3">
+         </i>
+         <span class="text-lg font-semibold text-gray-900">
+          120 jam
+         </span>
+         <span class="text-gray-600 text-sm sm:text-base">
+          Durasi Mendengarkan Audio
+         </span>
+        </div>
+       </div>
+      </div>
+      <div>
+       <h3 class="text-2xl font-semibold text-gray-900 mb-3 sm:mb-4 text-center">
+        Leaderboard Keluarga
+       </h3>
+       <p class="text-gray-700 max-w-3xl mx-auto text-center mb-4 sm:mb-6 px-2 sm:px-0">
+        Peringkat berdasarkan total cerita diselesaikan, durasi membaca, dan keterlibatan anggota keluarga.
+       </p>
+       <div class="overflow-x-auto rounded-lg shadow">
+        <table class="w-full text-left border-collapse min-w-[600px]">
+         <thead class="bg-blue-700 text-white">
+          <tr>
+           <th class="py-3 px-4 whitespace-nowrap">
+            Peringkat
+           </th>
+           <th class="py-3 px-4 whitespace-nowrap">
+            Nama Keluarga
+           </th>
+           <th class="py-3 px-4 whitespace-nowrap">
+            Cerita Diselesaikan
+           </th>
+           <th class="py-3 px-4 whitespace-nowrap">
+            Durasi Membaca
+           </th>
+           <th class="py-3 px-4 whitespace-nowrap">
+            Total Bintang
+           </th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr class="border-b border-gray-200 hover:bg-blue-50 transition-colors duration-300">
+           <td class="py-3 px-4 font-semibold whitespace-nowrap">
+            1
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            Keluarga Santoso
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            50
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            130 jam
+           </td>
+           <td class="py-3 px-4 font-semibold text-yellow-400 whitespace-nowrap">
+            200 ⭐
+           </td>
+          </tr>
+          <tr class="border-b border-gray-200 hover:bg-blue-50 transition-colors duration-300">
+           <td class="py-3 px-4 font-semibold whitespace-nowrap">
+            2
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            Keluarga Wijaya
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            45
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            120 jam
+           </td>
+           <td class="py-3 px-4 font-semibold text-yellow-400 whitespace-nowrap">
+            150 ⭐
+           </td>
+          </tr>
+          <tr class="border-b border-gray-200 hover:bg-blue-50 transition-colors duration-300">
+           <td class="py-3 px-4 font-semibold whitespace-nowrap">
+            3
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            Keluarga Pratama
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            40
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            110 jam
+           </td>
+           <td class="py-3 px-4 font-semibold text-yellow-400 whitespace-nowrap">
+            140 ⭐
+           </td>
+          </tr>
+          <tr class="border-b border-gray-200 hover:bg-blue-50 transition-colors duration-300">
+           <td class="py-3 px-4 font-semibold whitespace-nowrap">
+            4
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            Keluarga Hartono
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            38
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            105 jam
+           </td>
+           <td class="py-3 px-4 font-semibold text-yellow-400 whitespace-nowrap">
+            130 ⭐
+           </td>
+          </tr>
+          <tr class="border-b border-gray-200 hover:bg-blue-50 transition-colors duration-300">
+           <td class="py-3 px-4 font-semibold whitespace-nowrap">
+            5
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            Keluarga Lestari
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            35
+           </td>
+           <td class="py-3 px-4 whitespace-nowrap">
+            100 jam
+           </td>
+           <td class="py-3 px-4 font-semibold text-yellow-400 whitespace-nowrap">
+            120 ⭐
+           </td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div>
+    </section>
+    <!-- Statistics Section -->
+    <section class="max-w-5xl mx-auto bg-white rounded-xl shadow-md p-6 sm:p-8 fade-in-up" id="statistics">
+     <h2 class="text-3xl font-bold text-blue-700 mb-6 sm:mb-8 text-center">
+      Statistik Literasi Pribadi
+     </h2>
+     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-center">
+      <div class="transition-transform hover:scale-105 duration-300 p-4 sm:p-6 rounded-lg bg-blue-50">
+       <i class="fas fa-clock fa-3x text-blue-600 mb-3">
+       </i>
+       <h3 class="text-xl font-semibold text-gray-900">
+        Durasi Membaca
+       </h3>
+       <p class="text-gray-700 mt-2 text-lg">
+        120 jam 45 menit
+       </p>
+      </div>
+      <div class="transition-transform hover:scale-105 duration-300 p-4 sm:p-6 rounded-lg bg-blue-50">
+       <i class="fas fa-book-open fa-3x text-blue-600 mb-3">
+       </i>
+       <h3 class="text-xl font-semibold text-gray-900">
+        Cerita Favorit
+       </h3>
+       <p class="text-gray-700 mt-2 text-lg">
+        Petualangan Kelinci Ceria, Misteri di Balik Sekolah
+       </p>
+      </div>
+      <div class="transition-transform hover:scale-105 duration-300 p-4 sm:p-6 rounded-lg bg-blue-50">
+       <i class="fas fa-chart-line fa-3x text-blue-600 mb-3">
+       </i>
+       <h3 class="text-xl font-semibold text-gray-900">
+        Jam Aktif
+       </h3>
+       <p class="text-gray-700 mt-2 text-lg">
+        6 jam per hari rata-rata
+       </p>
+      </div>
+     </div>
+    </section>
+    <!-- Rewards Section -->
+    <section class="max-w-5xl mx-auto space-y-10 fade-in-up" id="rewards">
+     <h2 class="text-3xl font-bold text-blue-700 text-center">
+      Sistem Reward dan Badge
+     </h2>
+     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 sm:gap-8 justify-center px-2 sm:px-0">
+      <div class="flex flex-col items-center space-y-2 transform transition-transform hover:scale-110 duration-300">
+       <img alt="Badge reward berbentuk bintang emas dengan latar biru dan putih" class="w-20 h-20" height="80" src="https://storage.googleapis.com/a1aa/image/f0321c0d-2b54-4672-6625-dd0b3f405e97.jpg" width="80"/>
+       <span class="text-gray-700 font-medium text-sm sm:text-base text-center">
+        Bintang Pembaca
+       </span>
+      </div>
+      <div class="flex flex-col items-center space-y-2 transform transition-transform hover:scale-110 duration-300">
+       <img alt="Badge reward berbentuk medali perak dengan pita biru" class="w-20 h-20" height="80" src="https://storage.googleapis.com/a1aa/image/644c47f8-bc05-49d8-0bb9-fccc66e482c2.jpg" width="80"/>
+       <span class="text-gray-700 font-medium text-sm sm:text-base text-center">
+        Medali Konsisten
+       </span>
+      </div>
+      <div class="flex flex-col items-center space-y-2 transform transition-transform hover:scale-110 duration-300">
+       <img alt="Badge reward berbentuk trofi perunggu dengan latar biru dan putih" class="w-20 h-20" height="80" src="https://storage.googleapis.com/a1aa/image/801b3f6b-5309-4fbd-091f-461f868d5791.jpg" width="80"/>
+       <span class="text-gray-700 font-medium text-sm sm:text-base text-center">
+        Trofi Semangat
+       </span>
+      </div>
+      <div class="flex flex-col items-center space-y-2 transform transition-transform hover:scale-110 duration-300">
+       <img alt="Badge reward berbentuk medali emas dengan pita merah" class="w-20 h-20" height="80" src="https://storage.googleapis.com/a1aa/image/4c0308e0-6795-42b5-a086-d30751a17b1b.jpg" width="80"/>
+       <span class="text-gray-700 font-medium text-sm sm:text-base text-center">
+        Medali Juara
+       </span>
+      </div>
+      <div class="flex flex-col items-center space-y-2 transform transition-transform hover:scale-110 duration-300">
+       <img alt="Badge reward berbentuk bintang perak dengan latar biru dan putih" class="w-20 h-20" height="80" src="https://storage.googleapis.com/a1aa/image/c56c4e62-24ed-4e59-5134-e8d0af91d352.jpg" width="80"/>
+       <span class="text-gray-700 font-medium text-sm sm:text-base text-center">
+        Bintang Inspirasi
+       </span>
+      </div>
+     </div>
+    </section>
+    <!-- Contact Section -->
+    <section class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6 sm:p-8 space-y-6 fade-in-up" id="contact">
+     <h2 class="text-3xl font-bold text-blue-700 text-center">
+      Kontak Kami
+     </h2>
+     <form action="#" class="space-y-6" method="POST" novalidate="">
+      <div>
+       <label class="block text-gray-700 font-semibold mb-2" for="name">
+        Nama Lengkap
+       </label>
+       <input class="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id="name" name="name" placeholder="Masukkan nama lengkap Anda" required="" type="text"/>
+      </div>
+      <div>
+       <label class="block text-gray-700 font-semibold mb-2" for="email">
+        Email
+       </label>
+       <input class="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id="email" name="email" placeholder="Masukkan email Anda" required="" type="email"/>
+      </div>
+      <div>
+       <label class="block text-gray-700 font-semibold mb-2" for="message">
+        Pesan
+       </label>
+       <textarea class="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id="message" name="message" placeholder="Tulis pesan Anda di sini" required="" rows="4"></textarea>
+      </div>
+      <button class="w-full bg-blue-700 text-white font-semibold py-3 rounded-md hover:bg-blue-800 transition btn-pulse" type="submit">
+       Kirim Pesan
+      </button>
+     </form>
+    </section>
+   </main>
+   <footer class="bg-white border-t border-gray-200 mt-20 animate-fadeInUp">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm">
+     <p>
+      © 2025 Aksarasa. Semua hak cipta dilindungi.
+     </p>
+     <div class="flex space-x-6 mt-4 md:mt-0">
+      <a aria-label="Facebook" class="hover:text-blue-700 transition transform hover:scale-110 duration-300" href="#">
+       <i class="fab fa-facebook fa-lg">
+       </i>
+      </a>
+      <a aria-label="Twitter" class="hover:text-blue-700 transition transform hover:scale-110 duration-300" href="#">
+       <i class="fab fa-twitter fa-lg">
+       </i>
+      </a>
+      <a aria-label="Instagram" class="hover:text-blue-700 transition transform hover:scale-110 duration-300" href="#">
+       <i class="fab fa-instagram fa-lg">
+       </i>
+      </a>
+      <a aria-label="YouTube" class="hover:text-blue-700 transition transform hover:scale-110 duration-300" href="#">
+       <i class="fab fa-youtube fa-lg">
+       </i>
+      </a>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+   const mobileMenuButton = document.getElementById('mobile-menu-button');
+   const mobileMenu = document.getElementById('mobile-menu');
+   const loginModal = document.getElementById('login-modal');
+   const loginForm = document.getElementById('login-form');
+   const mainContent = document.getElementById('main-content');
+   const logoutButton = document.getElementById('logout-button');
+   const logoutButtonMobile = document.getElementById('logout-button-mobile');
+
+   // Toggle mobile menu
+   mobileMenuButton.addEventListener('click', () => {
+     mobileMenu.classList.toggle('hidden');
+   });
+
+   // Check if user is logged in (localStorage)
+   function isLoggedIn() {
+     return localStorage.getItem('familyData') !== null;
+   }
+
+   // Show or hide content based on login state
+   function updateUI() {
+     if (isLoggedIn()) {
+       loginModal.style.display = 'none';
+       mainContent.style.display = 'flex';
+       setTimeout(() => {
+         mainContent.style.opacity = '1';
+       }, 100);
+     } else {
+       loginModal.style.display = 'flex';
+       mainContent.style.opacity = '0';
+       mainContent.style.display = 'none';
+     }
+   }
+
+   // On page load
+   updateUI();
+
+   // Handle login form submission
+   loginForm.addEventListener('submit', (e) => {
+     e.preventDefault();
+     const familyName = loginForm.familyName.value.trim();
+     const memberCount = loginForm.memberCount.value.trim();
+     const emailLogin = loginForm.emailLogin.value.trim();
+
+     if (!familyName || !memberCount || !emailLogin) {
+       alert('Mohon isi semua data keluarga dengan lengkap.');
+       return;
+     }
+     if (parseInt(memberCount) < 1) {
+       alert('Jumlah anggota keluarga harus minimal 1.');
+       return;
+     }
+     // Save family data to localStorage
+     const familyData = {
+       familyName,
+       memberCount: parseInt(memberCount),
+       email: emailLogin
+     };
+     localStorage.setItem('familyData', JSON.stringify(familyData));
+     updateUI();
+   });
+
+   // Handle logout
+   function logout() {
+     localStorage.removeItem('familyData');
+     updateUI();
+     // Close mobile menu if open
+     if (!mobileMenu.classList.contains('hidden')) {
+       mobileMenu.classList.add('hidden');
+     }
+   }
+
+   logoutButton.addEventListener('click', logout);
+   logoutButtonMobile.addEventListener('click', logout);
+  </script>
+ </body>
+</html>

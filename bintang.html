@@ -1,0 +1,77 @@
+<html class="scroll-smooth" lang="id">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Star Points Progress
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <style>
+   @keyframes twinkle {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: drop-shadow(0 0 2px #facc15);
+      }
+      50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 6px #fbbf24);
+      }
+    }
+    .twinkle-star {
+      animation: twinkle 2.5s ease-in-out infinite;
+      color: #fbbf24;
+      filter: drop-shadow(0 0 3px #fbbf24);
+    }
+  </style>
+ </head>
+ <body class="bg-gradient-to-b from-yellow-50 to-yellow-100 min-h-screen flex items-center justify-center p-6 font-['Inter'],sans-serif">
+  <main class="max-w-md w-full bg-white rounded-3xl shadow-lg p-8 space-y-6 relative">
+   <button aria-label="Kembali ke dashboard" class="absolute top-6 left-6 text-yellow-600 hover:text-yellow-800 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-full p-2" onclick="window.location.href='index.html'">
+    <i class="fas fa-arrow-left fa-lg">
+    </i>
+   </button>
+   <div class="flex items-center space-x-3 justify-center">
+    <i class="fas fa-star fa-3x twinkle-star">
+    </i>
+    <h1 class="text-3xl font-extrabold text-yellow-600">
+     Poin Bintang Kamu
+    </h1>
+   </div>
+   <p class="text-yellow-900 text-base leading-relaxed text-center">
+    Kamu mendapatkan poin bintang setiap kali menyelesaikan cerita, mendengarkan audio, atau membaca secara konsisten. Terus kumpulkan bintang dan raih pencapaianmu!
+   </p>
+   <div>
+    <div class="flex justify-between mb-1">
+     <span class="text-yellow-700 font-semibold">
+      Progres Membaca
+     </span>
+     <span class="text-yellow-900 font-bold">
+      75 / 100 Bintang
+     </span>
+    </div>
+    <div class="w-full bg-yellow-200 rounded-full h-6 overflow-hidden shadow-inner">
+     <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" class="bg-yellow-400 h-6 rounded-full transition-all duration-700 ease-in-out" role="progressbar" style="width: 75%">
+     </div>
+    </div>
+   </div>
+   <div class="flex items-center justify-between mt-4">
+    <div class="flex items-center space-x-2">
+     <img alt="Ikon bintang kuning cerah dengan efek cahaya berkilau" class="w-10 h-10" height="40" src="https://storage.googleapis.com/a1aa/image/66880820-7985-4a3a-e72c-68f2771f6c1a.jpg" width="40"/>
+     <span class="text-yellow-800 font-semibold text-lg">
+      Total Bintang: 345
+     </span>
+    </div>
+    <div class="inline-flex items-center bg-red-500 text-white text-sm font-semibold px-3 py-1 rounded-full shadow-md select-none">
+     <i class="fas fa-fire mr-2 animate-pulse">
+     </i>
+     🔥 streak membaca aktif
+    </div>
+   </div>
+  </main>
+ </body>
+</html>
